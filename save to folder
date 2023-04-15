@@ -1,0 +1,50 @@
+import os
+from PIL import Image
+import shutil
+
+# Wczytanie wszystkich plików z folderu "kupa"
+input_folder_path = "C:/Users/mateu/Desktop/t1"
+output_folder_path = "C:/Users/mateu/Desktop/t2"
+overlap_ratio = 0.15
+
+# Usuń wszystkie pliki z folderu wyjściowego przed wykonaniem skryptu
+for filename in os.listdir(output_folder_path):
+    file_path = os.path.join(output_folder_path, filename)
+    if os.path.isfile(file_path):
+        os.remove(file_path)
+
+# Skopiuj wszystkie pliki z folderu wejściowego do folderu wyjściowego
+for filename in os.listdir(input_folder_path):
+    if filename.endswith(".jpg") or filename.endswith(".png"):
+        input_image_path = os.path.join(input_folder_path, filename)
+        output_image_path = os.path.join(output_folder_path, filename)
+        shutil.copyfile(input_image_path, output_image_path)
+
+for filename in os.listdir(input_folder_path):
+    if filename.endswith(".jpg") or filename.endswith(".png"):
+        # Wczytanie obrazu
+        input_image_path = os.path.join(input_folder_path, filename)
+        img = Image.open(input_image_path)
+
+        # Podzielenie obrazu na 9 części
+        width, height = img.size
+        part_width = int(width/4)
+        part_height = int(height/4)
+
+        # Calculate the overlap distance in pixels
+        overlap_width = int(part_width * overlap_ratio)
+        overlap_height = int(part_height * overlap_ratio)
+
+        for row in range(4):
+            for col in range(4):
+                # Obliczenie pozycji wycinanego fragmentu z overlapem
+                x1 = col * part_width - overlap_width if col > 0 else col * part_width
+                y1 = row * part_height - overlap_height if row > 0 else row * part_height
+                x2 = (col+1) * part_width + overlap_width if col < 3 else (col+1) * part_width
+                y2 = (row+1) * part_height + overlap_height if row < 3 else (row+1) * part_height
+
+                # Wycinanie i zapisywanie fragmentu
+                part = img.crop((x1, y1, x2, y2))
+                output_filename = f"{os.path.splitext(filename)[0]}_{row}_{col}.jpg"
+                output_image_path = os.path.join(output_folder_path, output_filename)
+                part.save(output_image_path)
