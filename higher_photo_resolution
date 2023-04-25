@@ -15,8 +15,8 @@ faktor_skalowania = max(szerokość_docelowa/szerokość, wysokość_docelowa/wy
 # Określ nowy rozmiar obrazu
 nowy_rozmiar = (int(szerokość*faktor_skalowania), int(wysokość*faktor_skalowania))
 
-# Utwórz nową wersję obrazu o docelowych wymiarach
-nowy_obraz = obraz.resize(nowy_rozmiar)
+# Utwórz nową wersję obrazu o docelowych wymiarach z interpolacją bicubic
+nowy_obraz = obraz.resize(nowy_rozmiar, resample=Image.BICUBIC)
 
 # Zapisz nowy obraz
 nowy_obraz.save('C:\\Users\\mateu\\Desktop\\nowaut\\2.jpg')
