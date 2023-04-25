@@ -1,0 +1,22 @@
+from PIL import Image
+
+# Otwórz plik obrazu
+obraz = Image.open('C:\\Users\\mateu\\Desktop\\nowaut\\paella.jpg')
+
+# Określ docelowe wymiary obrazu
+szerokość_docelowa, wysokość_docelowa = 1080, 1920
+
+# Pobierz oryginalny rozmiar obrazu
+szerokość, wysokość = obraz.size
+
+# Określ faktor skalowania
+faktor_skalowania = max(szerokość_docelowa/szerokość, wysokość_docelowa/wysokość)
+
+# Określ nowy rozmiar obrazu
+nowy_rozmiar = (int(szerokość*faktor_skalowania), int(wysokość*faktor_skalowania))
+
+# Utwórz nową wersję obrazu o docelowych wymiarach
+nowy_obraz = obraz.resize(nowy_rozmiar)
+
+# Zapisz nowy obraz
+nowy_obraz.save('C:\\Users\\mateu\\Desktop\\nowaut\\2.jpg')
