@@ -1,0 +1,24 @@
+from PIL import Image
+
+# Otwórz plik obrazu
+obraz = Image.open('C:\\Users\\mateu\\Desktop\\nowaut\\2.jpg')
+
+# Określ docelowe wymiary obrazu
+szerokość_docelowa, wysokość_docelowa = 1080, 1920
+
+# Pobierz oryginalny rozmiar obrazu
+szerokość, wysokość = obraz.size
+
+# Oblicz faktor skalowania, aby dopasować obraz do docelowych wymiarów
+faktor_skalowania = min(szerokość_docelowa/szerokość, wysokość_docelowa/wysokość)
+
+# Oblicz nowy rozmiar obrazu
+nowy_rozmiar = (int(szerokość*faktor_skalowania), int(wysokość*faktor_skalowania))
+
+# Obetnij dolną część obrazu do docelowych wymiarów
+lewy_górny_róg = (0, wysokość - int(nowy_rozmiar[1]))
+prawy_dolny_róg = (szerokość, wysokość)
+obraz_obcięty = obraz.crop((lewy_górny_róg[0], lewy_górny_róg[1], prawy_dolny_róg[0], prawy_dolny_róg[1]))
+
+# Zapisz nowy obraz
+obraz_obcięty.save('C:\\Users\\mateu\\Desktop\\nowaut\\20.jpg')
